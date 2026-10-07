@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathExplorer: Perbandingan Interaktif Lengkap</title>
+    
+    <!-- Font Awesome Icons & KaTeX -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    
+    <!-- File CSS Terpisah -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand-logo" onclick="switchTab('home')">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-shapes"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>MathExplorer</h1>
+                    <span>LAB PERBANDINGAN SMP</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <span class="progress-label">Progress:</span>
+                <div class="progress-bar">
+                    <div id="overall-progress" class="progress-fill"></div>
+                </div>
+                <span id="progress-text" class="progress-value">20%</span>
+            </div>
+
+            <nav class="nav-menu">
+                <button onclick="switchTab('home')" id="btn-home" class="tab-btn active">Beranda</button>
+                <button onclick="switchTab('fungsi')" id="btn-fungsi" class="tab-btn">1. Fungsi</button>
+                <button onclick="switchTab('senilai')" id="btn-senilai" class="tab-btn">2. Perbandingan Senilai</button>
+                <button onclick="switchTab('berbalik')" id="btn-berbalik" class="tab-btn">3. Perbandingan Berbalik Nilai</button>
+                <button onclick="switchTab('penerapan')" id="btn-penerapan" class="tab-btn">4. Tantangan & Lab</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+
+        <!-- LAYAR 1: BERANDA -->
+        <section id="tab-home" class="tab-content">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <span class="badge">Matematika SMP</span>
+                    <h2>Jelajahi Dunia Perbandingan! 🚀</h2>
+                    <p>Jangan dihafal rumusnya! Cobalah simulasi interaktif, amati perubahan gambarnya, uji soal tantangan, dan temukan sendiri konsep matematikanya.</p>
+                    <button onclick="switchTab('fungsi')" class="btn-hero">
+                        Mulai Eksplorasi <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div onclick="switchTab('fungsi')" class="menu-card border-amber">
+                    <div class="card-body">
+                        <div class="card-icon bg-amber">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3>1. Mesin Fungsi</h3>
+                        <p>Eksplorasi hubungan input-output, simulasi harga barang, dan latihan pola.</p>
+                    </div>
+                    <span class="card-action text-amber">Mulai <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div onclick="switchTab('senilai')" class="menu-card border-emerald">
+                    <div class="card-body">
+                        <div class="card-icon bg-emerald">
+                            <i class="fa-solid fa-gas-pump"></i>
+                        </div>
+                        <h3>2. Perbandingan Senilai</h3>
+                        <p>Simulasi Resep Jus, Konsumsi Bensin Mobil, & Latihan Soal Kontekstual.</p>
+                    </div>
+                    <span class="card-action text-emerald">Mulai <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div onclick="switchTab('berbalik')" class="menu-card border-rose">
+                    <div class="card-body">
+                        <div class="card-icon bg-rose">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <h3>3. Berbalik Nilai</h3>
+                        <p>Simulasi Jumlah Pekerja & Kecepatan Perjalanan vs Waktu Tempuh.</p>
+                    </div>
+                    <span class="card-action text-rose">Mulai <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div onclick="switchTab('penerapan')" class="menu-card border-indigo">
+                    <div class="card-body">
+                        <div class="card-icon bg-indigo">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h3>4. Tantangan & Lab</h3>
+                        <p>5 Misi Tantangan Nyata, Simulator Grafik Bebas, & Evaluasi Diri.</p>
+                    </div>
+                    <span class="card-action text-indigo">Mulai <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAYAR 2: FUNGSI -->
+        <section id="tab-fungsi" class="tab-content hidden">
+            <div class="section-header">
+                <span class="section-tag text-amber">Materi 1</span>
+                <h2>Mengenal Hubungan & Konsep Fungsi</h2>
+            </div>
+
+            <div class="grid-2col">
+                <div class="content-card">
+                    <h3>Ilustrasi 1: Mesin Ajaib (Input-Output)</h3>
+                    
+                    <div class="machine-wrapper">
+                        <div class="machine-step">
+                            <label>INPUT (x)</label>
+                            <input type="number" id="func-input" value="2" oninput="processMachine()">
+                        </div>
+                        <i class="fa-solid fa-arrow-right machine-arrow"></i>
+                        <div class="machine-box">
+                            <i class="fa-solid fa-gear spinning-gear"></i>
+                            <span>MESIN</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-right machine-arrow"></i>
+                        <div class="machine-step">
+                            <label>OUTPUT (y)</label>
+                            <div id="func-output" class="output-display">6</div>
+                        </div>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Input (x)</th>
+                                <th>Output (y)</th>
+                                <th>Hubungan/Pola</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>3</td><td>1 X 3 = 3</td></tr>
+                            <tr><td>2</td><td>6</td><td>2 X 3 = 6</td></tr>
+                            <tr class="highlight-row">
+                                <td id="tbl-in">2</td>
+                                <td id="tbl-out">6</td>
+                                <td id="tbl-pattern">2 X 3 = 6</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card flex-between">
+                    <div>
+                        <h3>Ilustrasi 2: Konteks Nyata "Harga Pensil"</h3>
+                        <p class="card-desc">Setiap 1 pensil harganya <strong>Rp2.000</strong>. Geser slider untuk melihat perubahan total harga!</p>
+                        
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Jumlah Pensil (x):</span>
+                                <span id="pencil-qty" class="text-amber">3 Pensil</span>
+                            </div>
+                            <input type="range" id="pencil-slider" min="1" max="10" value="3" oninput="updatePencilSim()">
+                        </div>
+
+                        <div class="display-box bg-amber-light">
+                            <div id="pencil-icons" class="emoji-container">✏️ ✏️ ✏️</div>
+                            <div class="text-right">
+                                <span class="label-sm">TOTAL HARGA (y)</span>
+                                <span id="pencil-cost" class="val-lg text-amber">Rp6.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-banner bg-dark">
+                        <div class="info-title">💡 Kesimpulan Konsep Fungsi:</div>
+                        <p>Fungsi memetakan setiap input dengan tepat satu output. Dalam hal ini, persamaan fungsinya adalah y = 2.000x.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fa-solid fa-pen-to-square text-amber"></i> Latihan Soal: Menemukan Rumus Fungsi</h3>
+
+                <div class="grid-2col">
+                    <div class="quiz-card">
+                        <span class="quiz-badge bg-amber">Soal 1</span>
+                        <p>Sebuah mesin fungsi menghasilkan pasangan input-output sebagai berikut: <br>
+                        (1 - 5), (2 - 7), (3 - 9), (4 - 11). <br>
+                        Manakah rumus fungsi f(x) yang sesuai?</p>
+                        <div class="quiz-options">
+                            <button onclick="checkQuizFunc(1, 'A', false)">A. f(x) = 5x</button>
+                            <button onclick="checkQuizFunc(1, 'B', true)">B. f(x) = 2x + 3</button>
+                            <button onclick="checkQuizFunc(1, 'C', false)">C. f(x) = 3x + 2</button>
+                        </div>
+                        <div id="quiz-func-fb-1" class="feedback-box hidden"></div>
+                    </div>
+
+                    <div class="quiz-card">
+                        <span class="quiz-badge bg-amber">Soal 2</span>
+                        <p>Tarif awal taksi adalah Rp8.000, lalu bertambah Rp3.000 per km perjalannya. Jika jarak tempuh adalah x km, tentukan tarif total (y) untuk jarak 5 km!</p>
+                        <div class="quiz-options">
+                            <button onclick="checkQuizFunc(2, 'A', false)">A. Rp15.000</button>
+                            <button onclick="checkQuizFunc(2, 'B', true)">B. Rp23.000 (y = 8.000 + 3.000 X 5)</button>
+                            <button onclick="checkQuizFunc(2, 'C', false)">C. Rp40.000</button>
+                        </div>
+                        <div id="quiz-func-fb-2" class="feedback-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAYAR 3: PERBANDINGAN SENILAI -->
+        <section id="tab-senilai" class="tab-content hidden">
+            <div class="section-header">
+                <span class="section-tag text-emerald">Materi 2</span>
+                <h2>Perbandingan Senilai (Direct Proportion)</h2>
+            </div>
+
+            <div class="grid-2col">
+                <div class="content-card flex-between">
+                    <div>
+                        <h3>Simulasi 1: Takaran Resep Jus Jeruk</h3>
+                        <p class="card-desc">Setiap 1 gelas jus membutuhkan tepat 2 buah jeruk.</p>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Gelas Jus (x):</span>
+                                <span id="glass-count" class="text-emerald">2 Gelas</span>
+                            </div>
+                            <input type="range" id="glass-slider" min="1" max="8" value="2" oninput="updateSenilaiSim()">
+                        </div>
+
+                        <div class="display-box bg-emerald-light min-h-box">
+                            <span class="label-sm text-emerald">Visualisasi Buah Jeruk (y):</span>
+                            <div id="orange-container" class="emoji-container">🍊 🍊 🍊 🍊</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar">
+                        <span>Konstanta Rasio: (<i>k</i> = <i>y</i> / <i>x</i>)</span>
+                        <span id="stat-ratio" class="text-emerald font-bold">2 Jeruk / Gelas</span>
+                    </div>
+                </div>
+
+                <div class="content-card flex-between">
+                    <div>
+                        <h3>Simulasi 2: Bensin vs Jarak Tempuh Mobil</h3>
+                        <p class="card-desc">Setiap 1 Liter bensin mampu menjalankan mobil sejauh 12 km.</p>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Bensin (x):</span>
+                                <span id="fuel-count" class="text-emerald">3 Liter</span>
+                            </div>
+                            <input type="range" id="fuel-slider" min="1" max="10" value="3" oninput="updateFuelSim()">
+                        </div>
+
+                        <div class="display-box bg-emerald-light">
+                            <div class="emoji-container">⛽ 🚗 💨</div>
+                            <div class="text-right">
+                                <span class="label-sm">JARAK TEMPUH (y)</span>
+                                <span id="distance-val" class="val-lg text-emerald">36 km</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar">
+                        <span>Formulasi Persamaan:</span>
+                        <span class="text-emerald font-bold">y = 12x</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2col">
+                <div class="content-card center-items">
+                    <h3>Visualisasi Grafik Perbandingan Senilai</h3>
+                    <p class="card-desc">Grafik berupa garis lurus miring naik melalui titik (0,0)</p>
+                    <canvas id="senilai-chart" width="260" height="180"></canvas>
+                </div>
+
+                <div class="info-card dark-emerald">
+                    <div>
+                        <div class="card-tag">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Uji Miskonsepsi Senilai
+                        </div>
+                        <h4>Apakah ini Perbandingan Senilai?</h4>
+                        <p>"Umur Kakak sekarang 12 tahun dan umur Adik 6 tahun (rasio 2:1). Apakah saat umur Kakak 24 tahun, umur Adik menjadi 12 tahun?"</p>
+                        
+                        <div class="quiz-options-vertical">
+                            <button onclick="checkSenilaiMisc(false)">🔴 Ya, karena perbandingannya harus selalu 2:1</button>
+                            <button onclick="checkSenilaiMisc(true)">🟢 Tidak! Selisih umur tetap (18 tahun), bukan perkalian lipat</button>
+                        </div>
+                        <div id="senilai-misc-feedback" class="feedback-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fa-solid fa-pen-to-square text-emerald"></i> Latihan Soal Perbandingan Senilai</h3>
+
+                <div class="grid-2col">
+                    <div class="quiz-card">
+                        <span class="quiz-badge bg-emerald">Soal 1 (Buku)</span>
+                        <p>Harga 3 buah buku tulis adalah Rp15.000. Berapakah harga yang harus dibayar jika Budi membeli 8 buah buku tulis yang sama?</p>
+                        <div class="input-inline">
+                            <input type="number" id="quiz-senilai-1" placeholder="Masukkan Rp...">
+                            <button onclick="checkSenilaiQuiz1()" class="btn-emerald">Cek</button>
+                        </div>
+                        <div id="quiz-senilai-fb-1" class="feedback-box hidden"></div>
+                    </div>
+
+                    <div class="quiz-card">
+                        <span class="quiz-badge bg-emerald">Soal 2 (Peta)</span>
+                        <p>Skala peta adalah 1 : 200.000. Jika jarak dua kota pada peta adalah 4cm, berapakah jarak sebenarnya dalam kilometer (km)?</p>
+                        <div class="input-inline">
+                            <input type="number" id="quiz-senilai-2" placeholder="Jarak (km)...">
+                            <button onclick="checkSenilaiQuiz2()" class="btn-emerald">Cek</button>
+                        </div>
+                        <div id="quiz-senilai-fb-2" class="feedback-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAYAR 4: PERBANDINGAN BERBALIK NILAI -->
+        <section id="tab-berbalik" class="tab-content hidden">
+            <div class="section-header">
+                <span class="section-tag text-rose">Materi 3</span>
+                <h2>Perbandingan Berbalik Nilai (Inverse Proportion)</h2>
+            </div>
+
+            <div class="grid-2col">
+                <div class="content-card flex-between">
+                    <div>
+                        <h3>Simulasi 1: Jumlah Pekerja vs Waktu</h3>
+                        <p class="card-desc">Pembersihan kelas membutuhkan total beban kerja konstan (k = 40).</p>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Pekerja (x):</span>
+                                <span id="worker-count" class="text-rose">2 Orang</span>
+                            </div>
+                            <input type="range" id="worker-slider" min="1" max="10" value="2" oninput="updateBerbalikSim()">
+                        </div>
+
+                        <div class="display-box bg-rose-light min-h-box">
+                            <div id="worker-avatars" class="emoji-container">👧 👦</div>
+                            <div class="result-text text-rose">Waktu Tempuh (y): <span id="time-output">20 Menit</span></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar">
+                        <span>Hasil Kali Konstan (x.y = k):</span>
+                        <span id="constant-output" class="font-bold">2 × 20 = 40</span>
+                    </div>
+                </div>
+
+                <div class="content-card flex-between">
+                    <div>
+                        <h3>Simulasi 2: Kecepatan vs Waktu (Jarak 120 km)</h3>
+                        <p class="card-desc">Geser kecepatan kendaraan untuk melihat waktu perjalanan!</p>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Kecepatan (x):</span>
+                                <span id="speed-val" class="text-rose">60 km/jam</span>
+                            </div>
+                            <input type="range" id="speed-slider" min="20" max="120" step="10" value="60" oninput="updateSpeedSim()">
+                        </div>
+
+                        <div class="display-box bg-rose-light">
+                            <div class="emoji-container">🏎️ ⏱️</div>
+                            <div class="text-right">
+                                <span class="label-sm">WAKTU TEMPUH (y)</span>
+                                <span id="travel-time" class="val-lg text-rose">2.0 Jam</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-bar">
+                        <span>Persamaan Kurva:</span>
+                        <span class="text-rose font-bold"><i>y</i> = <i>120</i> / <i>x</i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2col">
+                <div class="content-card center-items">
+                    <h3>Grafik Perbandingan Berbalik Nilai</h3>
+                    <p class="card-desc">Grafik berupa kurva hiperbola melengkung mendekati sumbu</p>
+                    <canvas id="berbalik-chart" width="260" height="180"></canvas>
+                </div>
+
+                <div class="info-card dark-rose">
+                    <div>
+                        <div class="card-tag">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Miskonsepsi Kata Kunci
+                        </div>
+                        <h4>Cek Jebakan Soal!</h4>
+                        <p>"Jika jumlah tabungan bertambah banyak, waktu yang dibutuhkan untuk membeli barang semakin sedikit. Apakah ini perbandingan berbalik nilai?"</p>
+
+                        <div class="quiz-options-vertical">
+                            <button onclick="checkBerbalikMisc(false)">🔴 Ya, karena satu naik dan satu turun</button>
+                            <button onclick="checkBerbalikMisc(true)">🟢 Tergantung! Harus dicek apakah hasil kalinya konstan (x.y = k)</button>
+                        </div>
+                        <div id="berbalik-misc-feedback" class="feedback-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fa-solid fa-pen-to-square text-rose"></i> Latihan Soal Perbandingan Berbalik Nilai</h3>
+
+                <div class="grid-2col">
+                    <div class="quiz-card">
+                        <span class="quiz-badge bg-rose">Soal 1 (Proyek Renovasi)</span>
+                        <p>Suatu pekerjaan dapat diselesaikan oleh 6 orang pekerja dalam waktu 12 hari. Jika pekerjaan dikerjakan oleh 9 orang, berapa hari pekerjaan tersebut selesai?</p>
+                        <div class="input-inline">
+                            <input type="number" id="quiz-berbalik-1" placeholder="Jumlah hari...">
+                            <button onclick="checkBerbalikQuiz1()" class="btn-rose">Cek</button>
+                        </div>
+                        <div id="quiz-berbalik-fb-1" class="feedback-box hidden"></div>
+                    </div>
+
+                    <div class="quiz-card">
+                        <span class="quiz-badge bg-rose">Soal 2 (Pakan Ternak)</span>
+                        <p>Persediaan makanan cukup untuk 20 ekor sapi selama 15 hari. Jika peternak membeli 5 ekor sapi lagi, berapa hari persediaan pakan akan habis?</p>
+                        <div class="input-inline">
+                            <input type="number" id="quiz-berbalik-2" placeholder="Jumlah hari...">
+                            <button onclick="checkBerbalikQuiz2()" class="btn-rose">Cek</button>
+                        </div>
+                        <div id="quiz-berbalik-fb-2" class="feedback-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAYAR 5: TANTANGAN & LAB -->
+        <section id="tab-penerapan" class="tab-content hidden">
+            <div class="section-header">
+                <span class="section-tag text-indigo">Materi 4</span>
+                <h2>Misi Tantangan, Lab Simulasi & Refleksi Self-Efficacy</h2>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fa-solid fa-trophy text-amber"></i> 5 Misi Tantangan Perbandingan</h3>
+                <p class="card-desc">Tentukan jenis perbandingannya dan selesaikan masalah kehidupan nyatanya!</p>
+
+                <div class="mission-list">
+                    <div class="mission-item">
+                        <div class="mission-info">
+                            <span class="mission-title">Misi 1: Resep Makanan</span>
+                            <p>Membuat 15 kue butuh 300g tepung. Untuk 25 kue, berapa gram tepung?</p>
+                        </div>
+                        <div class="mission-inputs">
+                            <select id="misi-type-1">
+                                <option value="">-- Pilih Jenis --</option>
+                                <option value="senilai">Perbandingan Senilai</option>
+                                <option value="berbalik">Berbalik Nilai</option>
+                            </select>
+                            <input type="number" id="misi-ans-1" placeholder="Jawaban (g)">
+                            <button onclick="checkMission(1, 'senilai', 500)" class="btn-indigo">Uji</button>
+                        </div>
+                    </div>
+                    <div id="misi-fb-1" class="feedback-box hidden"></div>
+
+                    <div class="mission-item">
+                        <div class="mission-info">
+                            <span class="mission-title">Misi 2: Pembagian Sembako</span>
+                            <p>Beras cukup untuk 30 KK selama 8 hari. Jika dibagikan ke 40 KK, berapa hari beras cukup?</p>
+                        </div>
+                        <div class="mission-inputs">
+                            <select id="misi-type-2">
+                                <option value="">-- Pilih Jenis --</option>
+                                <option value="senilai">Perbandingan Senilai</option>
+                                <option value="berbalik">Berbalik Nilai</option>
+                            </select>
+                            <input type="number" id="misi-ans-2" placeholder="Jawaban (hari)">
+                            <button onclick="checkMission(2, 'berbalik', 6)" class="btn-indigo">Uji</button>
+                        </div>
+                    </div>
+                    <div id="misi-fb-2" class="feedback-box hidden"></div>
+                </div>
+            </div>
+
+            <div class="grid-2col">
+                <div class="content-card flex-between">
+                    <div>
+                        <h3><i class="fa-solid fa-flask text-indigo"></i> Simulator Grafik Bebas (Lab)</h3>
+                        <p class="card-desc">Uji pasangan variabel pilihanmu untuk membuat model matematikanya:</p>
+
+                        <div class="lab-inputs">
+                            <div class="input-field">
+                                <label>Nilai x Awal</label>
+                                <input type="number" id="lab-x" value="4">
+                            </div>
+                            <div class="input-field">
+                                <label>Nilai y Awal</label>
+                                <input type="number" id="lab-y" value="12">
+                            </div>
+                        </div>
+
+                        <div class="radio-group">
+                            <label class="radio-label">Model Hubungan:</label>
+                            <div class="radio-options">
+                                <label><input type="radio" name="lab-type" value="senilai" checked onchange="runLab()"> Senilai (y = kx)</label>
+                                <label><input type="radio" name="lab-type" value="berbalik" onchange="runLab()"> Berbalik (xy = k)</label>
+                            </div>
+                        </div>
+
+                        <button onclick="runLab()" class="btn-block btn-indigo">Generate Formula & Model</button>
+                    </div>
+
+                    <div id="lab-output-box" class="lab-output">
+                        <div id="lab-model-title" class="lab-title">Model: Perbandingan Senilai</div>
+                        <div id="lab-model-k">Konstanta k = 3</div>
+                        <div id="lab-model-eq" class="lab-eq">Persamaan: y = 3x</div>
+                    </div>
+                </div>
+
+                <div class="content-card flex-between">
+                    <div>
+                        <h3><i class="fa-solid fa-heart-pulse text-rose"></i> Evaluasi Keyakinan Diri (Self-Efficacy)</h3>
+                        <p class="card-desc">Seberapa yakin kamu dengan kemampuan matematikamu setelah belajar hari ini?</p>
+
+                        <div class="reflection-list">
+                            <div class="reflection-item">
+                                <p>1. Saya yakin mampu membedakan Senilai dan Berbalik Nilai dalam kehidupan sehari-hari.</p>
+                                <div class="rating-buttons">
+                                    <button onclick="setEfficacy(this)">1 😟</button>
+                                    <button onclick="setEfficacy(this)">2 🙂</button>
+                                    <button onclick="setEfficacy(this)">3 😊</button>
+                                    <button onclick="setEfficacy(this)">4 😄</button>
+                                    <button onclick="setEfficacy(this)">5 🤩</button>
+                                </div>
+                            </div>
+
+                            <div class="reflection-item">
+                                <p>2. Ketika menghadapi soal cerita yang rumit, saya yakin dapat menemukan solusinya.</p>
+                                <div class="rating-buttons">
+                                    <button onclick="setEfficacy(this)">1 😟</button>
+                                    <button onclick="setEfficacy(this)">2 🙂</button>
+                                    <button onclick="setEfficacy(this)">3 😊</button>
+                                    <button onclick="setEfficacy(this)">4 😄</button>
+                                    <button onclick="setEfficacy(this)">5 🤩</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="efficacy-feedback-box" class="feedback-box success hidden">
+                        🌟 Terima kasih atas refleksimu! Keyakinan diri yang kuat dan latihan eksplorasi adalah kunci sukses matematika!
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        MathExplorer SMP © 2026 — Pembelajaran Perbandingan (Ardifa Ilma)
+    </footer>
+
+    <!-- File JavaScript Terpisah -->
+    <script src="script.js" defer></script>
+</body>
+</html>
